@@ -96,22 +96,145 @@
     .drawer a.active{ color:var(--green) } /* خانه سبز */
 
     /* ===== Hero / Intro ===== */
-    .intro{
-      padding:36px 16px; text-align:center;
+    .intro {
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(180deg, #000, #0a0a0a);
     }
-    .intro h1{
-      margin:0; font-size:22px; line-height:1.8;
-      text-shadow:0 0 14px rgba(19,147,255,0.25);
-    }
-    .intro .green{ color:var(--green) }
-    .intro .yellow{ color:var(--yellow) }
+    .intro h1 { font-size: 28px; }
+    .intro span.green { color: #0f0; }
+    .intro span.yellow { color: #FFD700; }
 
-    /* ===== Sections ===== */
-    .section{ padding:28px 16px }
-    .section h2{
-      margin:0 0 18px; font-size:20px; color:var(--yellow);
-      border-right:5px solid var(--blue-dark); padding-right:10px;
-      text-shadow:0 0 12px rgba(19,147,255,0.25);
+    /* بخش عکس‌ها */
+    .patch-images {
+      flex: 1;
+      text-align: center;
+    }
+    .main-img {
+      width: 100%;
+      max-width: 400px;
+      border: 2px solid #0ff;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .thumbs img {
+      width: 70px;
+      height: 50px;
+      margin: 5px;
+      cursor: pointer;
+      border: 2px solid #0ff;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+    .thumbs img:hover {
+      transform: scale(1.1);
+    }
+    
+    /* کارت پچ */
+    .patch-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      background: #111;
+      border: 2px solid #0d1426;
+      border-radius: 15px;
+      padding: 20px;
+      margin: 30px auto;
+      max-width: 900px;
+      box-shadow:  0 0 10px rgba(0, 191, 255, 0.7), 0 0 30px rgba(0, 191, 255, 0.5),   0 0 60px rgba(0, 191, 255, 0.3);
+    }
+    .patch-left {
+      flex: 1;
+      padding-left: 20px;
+    }
+    .patch-left h2 {
+      color: #FFD700;
+      margin-bottom: 15px;
+    }
+    .price {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+    .price .old {
+      color: red;
+      text-decoration: line-through;
+      margin-left: 10px;
+    }
+    .price .new {
+      color: #0f0;
+      font-weight: bold;
+    }
+    .buttons {
+      margin-top: 15px;
+    }
+    .buttons a {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-right: 10px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .buy-btn {
+      background: #FFD700;
+      border: 2px solid #0ff;
+      color: #000;
+    }
+    .buy-btn:hover { background: #0ff; color: #000; }
+    .support-btn {
+      background: #0f0;
+      border: 2px solid #0ff;
+      color: #000;
+    }
+    .btn-support {
+      background: #0f0;
+      color: #000;
+    }
+    .btn-support:hover {
+      background: #0ff;
+      color: #000;
+    }
+    .patch-right {
+      flex: 1;
+      text-align: center;
+    }
+    .patch-right img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .thumbs img {
+      width: 80px;
+      margin: 5px;
+      border: 2px solid #0d1426;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .patch-desc {
+      max-width: 900px;
+      margin: 30px auto;
+      background: #111;
+      padding: 20px;
+      border: 2px solid #0d1426;
+      border-radius: 10px;
+      box-shadow:  0 0 10px rgba(0, 191, 255, 0.7), 0 0 30px rgba(0, 191, 255, 0.5),   0 0 60px rgba(0, 191, 255, 0.3);
+    }
+    .patch-desc iframe {
+      width: 100%;
+      height: 400px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 10px;
+    }
+
+    footer {
+      background: #000;
+      text-align: center;
+      padding: 15px;
+      border-top: 2px solid #0ff;
+      font-size: 14px;
     }
 
     /* ===== Cards ===== */
@@ -160,7 +283,7 @@
       transform:translateX(-0%); transition:transform .5s ease; mix-blend-mode:screen; opacity:.55;
       pointer-events:none;
     }
-    .buy-btn:hover::after{ transform:translateX(130%) }
+    .buy-btn:hover::after{ transform:translateX(%) }
 
     /* ===== Footer ===== */
     footer{
@@ -204,14 +327,19 @@
     <div class="header-inner">
       <!-- لوگو: تصویر خودت رو جایگزین src کن -->
       <a class="logo" href="index.html" title="Caspian Game">
-        <img src="https://raw.githubusercontent.com/caspiangame/caspiangame.github.io/refs/heads/main/logo.png" alt="">
+        <img src="logo.png" alt="">
         <span></span>
       </a>
 
       <div class="search">
         <input type="text" placeholder="جست‌وجو…">
       </div>
-
+  <title>پچ دوبله GTA VCS</title>
+  <meta name="description" content="دانلود پچ دوبله فارسی GTA VCS با کیفیت بالا">
+<meta name="keywords" content="پچ دوبله فارسی, GTA VCS, دانلود پچ, دوبله بازی">
+<meta name="author" content="Caspian Game">
+<meta name="description" content="توضیح کوتاه درباره صفحه...">
+<meta name="keywords" content="کلمه1, کلمه2, بازی, پچ">
       <button class="burger" aria-label="باز کردن منو" onclick="openDrawer()">
         <span></span>
       </button>
@@ -232,36 +360,88 @@
     <a href="#">درباره ما</a>
     <a href="#">ارتباط با پشتیبانی</a>
   </aside>
+<!-- کارت پچ -->
+<div class="patch-card">
+  <title>پچ دوبله GTA VCS</title>
+<div class="patch-left">
+    <h2>پچ پارسی ساز gta vcs</h2>
+    <div class="price">
 
-  <!-- ===== INTRO ===== -->
-  <section class="intro">
-    <h1>
-      تجربه بازی‌ها به زبان <span class="green">پارسی</span> با
-      <span class="yellow">کاسپین گیم</span>
-    </h1>
-  </section>
-
-  <!-- ===== NEWEST ===== -->
-  <section class="section" id="newest">
-    <h2>جدیدترین پچ‌ها</h2>
-    <div class="grid">
-      <!-- Card 1 -->
-      <article class="card">
-        <img class="thumb" src="https://raw.githubusercontent.com/caspiangame/caspiangame.github.io/refs/heads/main/vcs.persian.PNG" alt="پچ GTA V">
-        <div class="info">
-          <h3 class="title">پچ پارسی‌ساز gta vcs</h3>
-          <p class="desc">ترجمه کامل ی(دیالوگ‌ها،منو،راهنما و..)به زبان پارسی.برای نسخه psp_قابل اجرا روی اندروید،ویندوز و... با شبیه ساز PPSSPP</p>
-          <p class="price">
-
-            <span class="new">رایگان</span>
-          </p>
-          <a class="buy-btn" href="/gta_vcs_persin">اطلاعات بیشتر و دانلود</a>
-        </div>
-      </article>
+      <span class="new">رایگان</span>
     </div>
-  </section>
+    <div class="buttons">
+      <a href="#" class="buy-btn">دانلود</a>
+     <a href="https://daramet.com/caspiangame" class="btn btn-support">حمایت مالی</a>
+    </div>
+  </div> <!-- ✅ اینو بسته بودی جا افتاده بود -->
+  	
+  <div class="patch-right">
+    <img id="mainImage" src="https://raw.githubusercontent.com/caspiangame/caspiangame.github.io/refs/heads/main/vcs.persian.PNG" alt="Poster" onclick="openFullscreen(this)">
+    <div class="thumbs">
+      <img src="https://github.com/caspiangame/caspiangame.github.io/blob/main/vcs.persian.1.png?raw=true alt="Thumb 1" onclick="changeImage(this)">
+      <img src="https://raw.githubusercontent.com/caspiangame/caspiangame.github.io/refs/heads/main/vcs.persian.2.png" alt="Thumb 2" onclick="changeImage(this)">
+      <img src="https://raw.githubusercontent.com/caspiangame/caspiangame.github.io/refs/heads/main/vcs.persian.4.png" alt="Thumb 3" onclick="changeImage(this)">
+      <img src="https://raw.githubusercontent.com/caspiangame/caspiangame.github.io/refs/heads/main/vcs.persian.3.png" alt="Thumb 4" onclick="changeImage(this)">
+    </div>
+  </div>
+</div>
 
-  <!-- ===== POPULAR ===== -->
+<script>
+  function changeImage(el) {
+    document.getElementById("mainImage").src = el.src;
+  }
+
+  function openFullscreen(img) {
+    let modal = document.createElement("div");
+    modal.style.position = "fixed";
+    modal.style.top = "0";
+    modal.style.left = "0";
+    modal.style.width = "100%";
+    modal.style.height = "100%";
+    modal.style.background = "rgba(0,0,0,0.9)";
+    modal.style.display = "flex";
+    modal.style.alignItems = "center";
+    modal.style.justifyContent = "center";
+    modal.style.zIndex = "1000";
+
+    let fullImg = document.createElement("img");
+    fullImg.src = img.src;
+    fullImg.style.maxWidth = "90%";
+    fullImg.style.maxHeight = "90%";
+    fullImg.style.borderRadius = "10px";
+    fullImg.style.boxShadow = "0 0 20px #000";
+
+    modal.appendChild(fullImg);
+    modal.onclick = () => modal.remove();
+
+    document.body.appendChild(modal);
+  }
+</script>
+
+
+  <!-- توضیحات -->
+  <div class="patch-desc">
+    <h3>توضیحات پچ:</h3>
+    <p>بالاخره gta vice city storiesبا زبان کاملا پارسی منتشر شد!!بصورت کاملا رایگان!!</p>
+ <p>+ویژگی های این پارسی ساز:</p>
+  <p> </p>
+   <p>✓ترجمه کامل روان و قابل فهم!!</p>
+    <p>✓فونت کاملا خوانا!!</p>
+     <p>✓ترجمه کامل دیالوگ های بازی!</p>
+      <p>✓ترجمه کامل منو،راهنما و.....</p>
+       <p>✓ترجمه کامل بخش multiplayer!!</p>
+        <p>✓قابل اجرا روی موبایل با شبیه ساز ppsspp به راحتی و بدون لگ!!</p>
+         <p>✓قابل اجرا روی ویندوز با شبیه ساز به همراه موس و کیبورد!!!</p>
+          <p>✓قابلیت اضافه نمودن آهنگ های شاد ایرانی به بازی بر اساس سلیقه شما!!</p>
+           <p>⚠️حتما زیرنویس را از داخل تنظیمات روشن کنید تا پارسی ساز فعال شود!!</p>
+            <p>+برای حمایت،ما را در تلگرام و یوتیوب دنبال کنید...همچنین اگر علاقه مند هستید میتوانید از طریق لینک حمایت مالی نیز از ما حمایت کنید...</p>
+             <p>   </p>
+              <p>این پارسی ساز توسط تیم ™caspian game ساخته شده و بصورت کاملا رایگان منتشر شده.هرگونه کپی برداری یا فروش این محصول حرام میباشد و پیگرد قانونی دارد!!</p>
+               <p></p>
+  </div>
+ 
+
+   <!-- ===== POPULAR ===== -->
   <section class="section" id="popular">
     <h2>محبوب‌ترین پچ‌ها</h2>
     <div class="grid">
@@ -270,28 +450,14 @@
         <img class="thumb" src="https://raw.githubusercontent.com/caspiangame/caspiangame.github.io/refs/heads/main/vcs.persian.PNG" alt="پچ GTA V">
         <div class="info">
           <h3 class="title">پچ پارسی‌ساز gta vcs</h3>
-          <p class="desc">ترجمه کامل ی(دیالوگ‌ها،منو،راهنما و..)به زبان پارسی.برای نسخه.</p>
+          <p class="desc">تجربه gta vcs با زبان پارسی به صورت کامل!!</p>
           <p class="price">
 
             <span class="new">رایگان</span>
           </p>
-          <a class="buy-btn" href="/gta_vcs_persin">اطلاعات بیشتر و دانلود</a>
+          <a class="buy-btn" href="#">اطلاعات بیشتر و دانلود</a>
         </div>
       </article>
-    </div>
-  </section>
-
-  <!-- ===== DUB PATCHES ===== -->
-  <section class="section" id="dub-fa">
-    <h2>پچ‌های دوبله پارسی</h2>
-    <div class="grid">
-    </div>
-  </section>
-
-  <!-- ===== SUB PATCHES ===== -->
-  <section class="section" id="subs-fa">
-    <h2>پچ‌های زیرنویس پارسی</h2>
-    <div class="grid">
     </div>
   </section>
 
@@ -357,13 +523,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
