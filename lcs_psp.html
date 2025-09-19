@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>کاسپین گیم | Caspian Game</title>
+  <style>
+    :root{
+      --blue-dark:#0d1426;       /* آبی تیره‌تر برای بوردر */
+      --blue-glow:#1393ff;       /* نئون آبی برای درخشش */
+      --bg:#000000;              /* پس‌زمینه اصلی */
+      --card:#071225;            /* پس‌زمینه کارت‌ها (آبی خیلی تیره) */
+      --yellow:#ffd400;          /* زرد دکمه‌ها/عناوین */
+      --green:#00e676;           /* قیمت جدید / تاکید */
+      --red:#ff3b3b;             /* قیمت خط‌خورده */
+      --text:#ffffff;            /* متن */
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Tahoma, Vazirmatn, system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    /* ===== Header ===== */
+    .header{
+      position:sticky; top:0; z-index:1000;
+      background:rgba(0,0,0,0.9);
+      backdrop-filter:saturate(120%) blur(6px);
+      border-bottom:2px solid var(--blue-dark);
+      box-shadow:0 0 18px rgba(19,147,255,0.35);
+    }
+    .header-inner{
+      display:flex; align-items:center; gap:12px;
+      padding:12px 16px;
+    }
+    .logo{
+      display:flex; align-items:center; gap:0px; text-decoration:none;
+      color:var(--yellow); font-weight:800; font-size:30px;
+    }
+    .logo img{width:100px; height:70px; object-fit:contain; border-radius:0px; border:0px solid var(--blue-dark)}
+    .search{
+      flex:1; display:flex; align-items:left;
+    }
+    .search input{
+      width:100%;
+      background:#0d1426; color:var(--text);
+      border:2px solid var(--blue-dark);
+      border-radius:10px; padding:10px 12px;
+      outline:none;
+      box-shadow:inset 0 0 0 1px rgba(19,147,255,0.15), 0 0 10px rgba(19,147,255,0.15);
+    }
+    .burger{
+      margin-inline-start:auto;
+      width:60px; height:50px; border-radius:10px;
+      background:#0d1426; border:2px solid var(--blue-dark);
+      display:grid; place-items:center; cursor:pointer;
+      box-shadow:0 0 12px rgba(19,147,255,0.25);
+      transition:transform .2s ease;
+    }
+    .burger:hover{ transform:scale(1.05) }
+    .burger span, .burger span::before, .burger span::after{
+      content:""; display:block; width:20px; height:2px; background:var(--yellow);
+      position:relative; border-radius:2px;
+    }
+    .burger span::before{ position:absolute; top:-6px }
+    .burger span::after{ position:absolute; top:6px }
+
+    /* ===== Drawer Menu ===== */
+    .overlay{
+      position:fixed; inset:0; background:rgba(0,0,0,0.55);
+      opacity:0; pointer-events:none; transition:opacity .3s ease; z-index:999;
+    }
+    .overlay.show{opacity:1; pointer-events:auto}
+    .drawer{
+      position:fixed; top:0; right:0; height:100dvh; width:290px;
+      background:#0b1222; border-left:2px solid var(--blue-dark);
+      box-shadow:-px 0 28px rgba(19,147,255,0.35);
+      transform:translateX(100%); transition:transform .35s ease; z-index:1001;
+      display:flex; flex-direction:column;
+    }
+    .drawer.open{ transform:translateX(0) }
+    .drawer-header{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:16px; border-bottom:1px solid var(--blue-dark); color:var(--yellow);
+      font-weight:700;
+    }
+    .drawer a{
+      display:block; padding:14px 16px; text-decoration:none; color:#e6f1ff; font-weight:600;
+      border-bottom:1px solid #0f1a33;
+      transition:background .2s ease, color .2s ease;
+    }
+    .drawer a:hover{ background:#0f1a33; color:var(--yellow) }
+    .drawer a.active{ color:var(--green) } /* خانه سبز */
+
+    /* ===== Hero / Intro ===== */
+    .intro {
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(180deg, #000, #0a0a0a);
+    }
+    .intro h1 { font-size: 28px; }
+    .intro span.green { color: #0f0; }
+    .intro span.yellow { color: #FFD700; }
+
+    /* بخش عکس‌ها */
+    .patch-images {
+      flex: 1;
+      text-align: center;
+    }
+    .main-img {
+      width: 100%;
+      max-width: 400px;
+      border: 2px solid #0ff;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .thumbs img {
+      width: 70px;
+      height: 50px;
+      margin: 5px;
+      cursor: pointer;
+      border: 2px solid #0ff;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+    .thumbs img:hover {
+      transform: scale(1.1);
+    }
+    
+    /* کارت پچ */
+    .patch-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      background: #111;
+      border: 2px solid #0d1426;
+      border-radius: 15px;
+      padding: 20px;
+      margin: 30px auto;
+      max-width: 900px;
+      box-shadow:  0 0 10px rgba(0, 191, 255, 0.7), 0 0 30px rgba(0, 191, 255, 0.5),   0 0 60px rgba(0, 191, 255, 0.3);
+    }
+    .patch-left {
+      flex: 1;
+      padding-left: 20px;
+    }
+    .patch-left h2 {
+      color: #FFD700;
+      margin-bottom: 15px;
+    }
+    .price {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+    .price .old {
+      color: red;
+      text-decoration: line-through;
+      margin-left: 10px;
+    }
+    .price .new {
+      color: #0f0;
+      font-weight: bold;
+    }
+    .buttons {
+      margin-top: 15px;
+    }
+    .buttons a {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-right: 10px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .buy-btn {
+      background: #FFD700;
+      border: 2px solid #0ff;
+      color: #000;
+    }
+    .buy-btn:hover { background: #0ff; color: #000; }
+    .support-btn {
+      background: #0f0;
+      border: 2px solid #0ff;
+      color: #000;
+    }
+    .btn-support {
+      background: #0f0;
+      color: #000;
+    }
+    .btn-support:hover {
+      background: #0ff;
+      color: #000;
+    }
+    .patch-right {
+      flex: 1;
+      text-align: center;
+    }
+    .patch-right img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .thumbs img {
+      width: 80px;
+      margin: 5px;
+      border: 2px solid #0d1426;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .patch-desc {
+      max-width: 900px;
+      margin: 30px auto;
+      background: #111;
+      padding: 20px;
+      border: 2px solid #0d1426;
+      border-radius: 10px;
+      box-shadow:  0 0 10px rgba(0, 191, 255, 0.7), 0 0 30px rgba(0, 191, 255, 0.5),   0 0 60px rgba(0, 191, 255, 0.3);
+    }
+    .patch-desc iframe {
+      width: 100%;
+      height: 400px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 10px;
+    }
+
+    footer {
+      background: #000;
+      text-align: center;
+      padding: 15px;
+      border-top: 2px solid #0ff;
+      font-size: 14px;
+    }
+
+    /* ===== Cards ===== */
+    .grid{
+      display:grid; gap:16px;
+      grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
+    }
+    .card{
+      background:var(--card);
+      border:5px solid var(--ـblue-dark);
+      border-radius:14px; overflow:hidden;
+      box-shadow:  0 0 10px rgba(0, 191, 255, 0.7), 0 0 30px rgba(0, 191, 255, 0.5),   0 0 60px rgba(0, 191, 255, 0.3);
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
+    .card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 0 0 2px rgba(19,147,255,0.2), 0 0 30px rgba(19,147,255,0.45);
+    }
+    .thumb{ width:100%; height:200px; object-fit:topcenter; display:block }
+    .info{ padding:14px }
+    .title{ margin:0 0 6px; color:var(--yellow); font-size:16px; font-weight:800 }
+    .desc{ margin:0 0 10px; color:#bcd3ff; font-size:13px }
+    .price{
+      display:flex; align-items:center; gap:8px; margin:0 0 10px; font-weight:800;
+    }
+    .price .old{ color:var(--red); text-decoration:line-through; opacity:.85 }
+    .price .new{ color:var(--green) }
+
+    /* ===== Buy Button (rounded rectangle, custom hover + shine) ===== */
+    .buy-btn{
+      position:relative; display:inline-block; isolation:isolate;
+      padding:10px 18px; border-radius:12px;
+      background:var(--yellow); color:#000; text-decoration:none; font-weight:900;
+      border:2px solid var(--blue-glow); cursor:pointer;
+      box-shadow:0 0 0 2px rgba(19,147,255,0.18), 0 0 16px rgba(19,147,255,0.35);
+      transition:background .2s ease, color .2s ease, transform .15s ease, box-shadow .2s ease;
+    }
+    .buy-btn:hover{
+      background:var(--blue-glow); color:#fff; transform:translateY(-1px);
+      box-shadow:0 0 0 2px rgba(255,212,0,0.25), 0 0 20px rgba(19,147,255,0.55);
+    }
+    /* برق/شاین */
+    .buy-btn::after{
+      content:""; position:absolute; inset:0; border-radius:10px;
+      background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.6) 45%, transparent 55%);
+      transform:translateX(-0%); transition:transform .5s ease; mix-blend-mode:screen; opacity:.55;
+      pointer-events:none;
+    }
+    .buy-btn:hover::after{ transform:translateX(%) }
+
+    /* ===== Footer ===== */
+    footer{
+      margin-top:36px;
+      background:linear-gradient(180deg, #070f20, #050a16 60%, #04070f 100%);
+      border-top:2px solid var(--blue-dark);
+      box-shadow:0 -8px 26px rgba(19,147,255,0.35);
+      padding:22px 16px;
+    }
+    .foot-wrap{ display:grid; gap:14px }
+    .foot-row{ display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:center }
+    .copyright{
+      text-align:center; color:#cfe3ff; font-size:13px
+    }
+    .social{
+      display:flex; gap:14px; justify-content:center
+    }
+    .social a{
+      display:inline-flex; align-items:center; gap:8px;
+      text-decoration:none; font-weight:800; font-size:14px;
+      padding:8px 10px; border-radius:10px; background:#0d1426;
+      border:1px solid var(--blue-dark);
+      box-shadow:0 0 10px rgba(19,147,255,0.18);
+    }
+    .tg{ color:#229ED9 } .yt{ color:#FF0000 } .ig{ color:#E4405F } .sup{ color:var(--yellow) }
+
+    /* ===== Responsive tweaks ===== */
+    @media (max-width: 720px){
+      .header-inner{ gap:8px }
+      .search{ order:3; width:100% }
+      .burger{ order:2 }
+      .logo{ order:1 }
+      .intro h1{ font-size:18px }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <div class="header-inner">
+      <!-- لوگو: تصویر خودت رو جایگزین src کن -->
+      <a class="logo" href="index.html" title="Caspian Game">
+        <img src="https://raw.githubusercontent.com/caspiangame/caspiangame.github.io/refs/heads/main/logo.png" alt="">
+        <span></span>
+      </a>
+
+      <div class="search">
+        <input type="text" placeholder="جست‌وجو…">
+      </div>
+  <title>پچ دوبله GTA VCS</title>
+  <meta name="description" content="دانلود پچ دوبله فارسی GTA VCS با کیفیت بالا">
+<meta name="keywords" content="پچ دوبله فارسی, GTA VCS, دانلود پچ, دوبله بازی">
+<meta name="author" content="Caspian Game">
+<meta name="description" content="توضیح کوتاه درباره صفحه...">
+<meta name="keywords" content="کلمه1, کلمه2, بازی, پچ">
+      <button class="burger" aria-label="باز کردن منو" onclick="openDrawer()">
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== DRAWER & OVERLAY ===== -->
+  <div id="overlay" class="overlay" onclick="closeDrawer()"></div>
+  <aside id="drawer" class="drawer" aria-hidden="true">
+    <div class="drawer-header">
+      <span>منو</span>
+      <button onclick="closeDrawer()" aria-label="بستن" style="background:transparent;color:#fff;border:0;font-size:22px;cursor:pointer">×</button>
+    </div>
+    <a href="" class="active">خانه</a>
+    <a href="#">پچ دوبله پارسی</a>
+    <a href="#">پچ زیرنویس پارسی</a>
+    <a href="#">سایر پچ‌ها و مودها</a>
+    <a href="#">درباره ما</a>
+    <a href="#">ارتباط با پشتیبانی</a>
+  </aside>
+<!-- کارت پچ -->
+<div class="patch-card">
+  <title>پچ دوبله GTA VCS</title>
+<div class="patch-left">
+    <h2>پچ پارسی ساز gta lcs</h2>
+    <div class="price">
+
+      <span class="new">رایگان</span>
+    </div>
+    <div class="buttons">
+      <a href="https://www.mediafire.com/file/y1wbv34yguywr99/GTA.LCS.PERSIAN.PSP.7z/file" class="buy-btn">دانلود</a>
+     <a href="https://daramet.com/caspiangame" class="btn btn-support">حمایت مالی</a>
+    </div>
+  </div> <!-- ✅ اینو بسته بودی جا افتاده بود -->
+  	
+  <div class="patch-right">
+    <img id="mainImage" src="https://raw.githubusercontent.com/caspiangame/caspiangame.github.io/refs/heads/main/Picsart_25-09-18_18-50-55-752.png" alt="Poster" onclick="openFullscreen(this)">
+    <div class="thumbs">
+      <img src="https://raw.githubusercontent.com/caspiangame/caspiangame.github.io/refs/heads/main/lcspsp1.png" alt="Thumb 1" onclick="changeImage(this)">
+      <img src="https://raw.githubusercontent.com/caspiangame/caspiangame.github.io/refs/heads/main/lcspsp2.png" alt="Thumb 2" onclick="changeImage(this)">
+      <img src="https://raw.githubusercontent.com/caspiangame/caspiangame.github.io/refs/heads/main/lcspsp3.png" alt="Thumb 3" onclick="changeImage(this)">
+      <img src="https://raw.githubusercontent.com/caspiangame/caspiangame.github.io/refs/heads/main/lcspsp4.png" alt="Thumb 4" onclick="changeImage(this)">
+    </div>
+  </div>
+</div>
+
+<script>
+  function changeImage(el) {
+    document.getElementById("mainImage").src = el.src;
+  }
+
+  function openFullscreen(img) {
+    let modal = document.createElement("div");
+    modal.style.position = "fixed";
+    modal.style.top = "0";
+    modal.style.left = "0";
+    modal.style.width = "100%";
+    modal.style.height = "100%";
+    modal.style.background = "rgba(0,0,0,0.9)";
+    modal.style.display = "flex";
+    modal.style.alignItems = "center";
+    modal.style.justifyContent = "center";
+    modal.style.zIndex = "1000";
+
+    let fullImg = document.createElement("img");
+    fullImg.src = img.src;
+    fullImg.style.maxWidth = "90%";
+    fullImg.style.maxHeight = "90%";
+    fullImg.style.borderRadius = "10px";
+    fullImg.style.boxShadow = "0 0 20px #000";
+
+    modal.appendChild(fullImg);
+    modal.onclick = () => modal.remove();
+
+    document.body.appendChild(modal);
+  }
+</script>
+
+
+  <!-- توضیحات -->
+  <div class="patch-desc">
+    <h3>توضیحات پچ:</h3>
+    <p>بالا خره پارسی ساز جی تی ای لیبرتی سیتی استوریز منتشر شد!!</p>
+ <p>+ویژگی های این پارسی ساز:</p>
+  <p> </p>
+   <p>✓ترجمه کامل روان و قابل فهم!!</p>
+    <p>✓فونت کاملا خوانا!!</p>
+     <p>✓ترجمه کامل دیالوگ های بازی!</p>
+     
+        <p>✓قابل اجرا روی موبایل با شبیه ساز ppsspp به راحتی و بدون لگ!!</p>
+         <p>✓قابل اجرا روی ویندوز با شبیه ساز به همراه موس و کیبورد!!!</p>
+          <p>✓قابلیت اضافه نمودن آهنگ های شاد ایرانی به بازی بر اساس سلیقه شما!!</p>
+           <p>⚠️حتما زیرنویس را از داخل تنظیمات روشن کنید تا پارسی ساز فعال شود!!</p>
+            <p>+برای حمایت،ما را در تلگرام و یوتیوب دنبال کنید...همچنین اگر علاقه مند هستید میتوانید از طریق لینک حمایت مالی نیز از ما حمایت کنید...</p>
+             <p>   </p>
+              <p>این پارسی ساز توسط تیم ™caspian game ساخته شده و بصورت کاملا رایگان منتشر شده.هرگونه کپی برداری یا فروش این محصول حرام میباشد و پیگرد قانونی دارد!!</p>
+               <p></p>
+  </div>
+ 
+
+   <!-- ===== POPULAR ===== -->
+  <section class="section" id="popular">
+    <h2>محبوب‌ترین پچ‌ها</h2>
+    <div class="grid">
+       <!-- Card 1 -->
+      <article class="card">
+        <img class="thumb" src="https://raw.githubusercontent.com/caspiangame/caspiangame.github.io/refs/heads/main/vcs.persian.PNG" alt="پچ GTA V">
+        <div class="info">
+          <h3 class="title">پچ پارسی‌ساز gta vcs</h3>
+          <p class="desc">تجربه gta vcs با زبان پارسی به صورت کامل!!</p>
+          <p class="price">
+          	
+       
+
+            <span class="new">رایگان</span>
+          </p>
+          <a class="buy-btn" href="#">اطلاعات بیشتر و دانلود</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="foot-wrap">
+      <div class="foot-row social">
+        <!-- تلگرام -->
+        <a class="tg" href="https://t.me/caspian_gamee" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.999 15.2 9.9 18c.4 0 .6-.2.8-.4l1.9-1.8 3.9 2.9c.7.4 1.2.2 1.4-.7l2.6-12.3c.2-1-.4-1.4-1.1-1.1L3.7 9.5c-1 .4-1 1 0 1.3l4.4 1.4 10.3-6.5c.5-.3.9-.1.6.2L9.999 15.2z"/></svg>
+          تلگرام
+        </a>
+        <!-- یوتیوب -->
+        <a class="yt" href="https://youtube.com/@caspian_gamee" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2s-.2-1.6-.8-2.4c-.8-.8-1.7-.8-2.1-.9C17.6 2.5 12 2.5 12 2.5h0s-5.6 0-8.6.4c-.4 0-1.3.1-2.1.9C.7 4.7.5 6.2.5 6.2S.3 8.1.3 10v1.9c0 1.9.2 3.8.2 3.8s.2 1.6.8 2.4c.8.8 1.8.8 2.2.9 1.6.2 6.5.4 8.5.4h.2c2 0 6.9-.2 8.5-.4.4 0 1.3-.1 2.1-.9.6-.8.8-2.4.8-2.4s.2-1.9.2-3.8V10c0-1.9-.2-3.8-.2-3.8zM9.8 14.7V7.7l6.1 3.5-6.1 3.5z"/></svg>
+          یوتیوب
+        </a>
+        <!-- اینستاگرام -->
+        <a class="ig" href="#" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 3.5A5.5 5.5 0 1 1 6.5 13 5.5 5.5 0 0 1 12 7.5zm0 2A3.5 3.5 0 1 0 15.5 13 3.5 3.5 0 0 0 12 9.5zm5.75-2.5a1.25 1.25 0 1 1-1.25 1.25A1.25 1.25 0 0 1 17.75 7z"/></svg>
+          اینستاگرام
+        </a>
+        <!-- پشتیبانی -->
+        <a class="sup" href="https://t.me/caspian_gamee_s_bot" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a9 9 0 0 0-9 9v3a3 3 0 0 0 3 3h1v-8a5 5 0 0 1 10 0v8h1a3 3 0 0 0 3-3v-3a9 9 0 0 0-9-9zm-1 18h2a2 2 0 0 1-2 2z"/></svg>
+          پشتیبانی تلگرام
+          <!-- حمایت مالی -->
+<a class="support" href="https://daramet.com/caspiangame" target="_blank" rel="noopener" title="حمایت مالی"
+   style="color:#28a745; display:inline-flex; align-items:center; gap:8px; text-decoration:none;">
+  <!-- Donation icon: hand holding a heart (uses currentColor) -->
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 21c-.6 0-1-.4-1-1v-6.1l-2.4 1.4c-.4.2-.9.1-1.2-.2-.3-.3-.4-.8-.2-1.2l3-5.2c.6-1.1 2-1.5 3.1-.9.4.2.8.5 1 1 .2-.5.6-.8 1-1 .9-.4 2 .1 2.4 1 .3.7.1 1.4-.4 2l-3 3 .4 4.9c0 .6-.4 1-1 1H12zM9.9 7.1c-.7-.7-1.6-1.1-2.6-1.1-2 0-3.3 2.2-2.2 3.9 1 1.7 4.1 4.1 4.1 4.1s3.1-2.4 4.1-4.1c1.1-1.7-0.2-3.9-2.2-3.9-.9 0-1.8.4-2.2 1z"/>
+  </svg>
+
+  <span>حمایت مالی</span>
+</a>
+        </a>
+      </div>
+      <div class="foot-row">
+        <div class="copyright">© 2025 Caspian Game — تمامی حقوق محفوظ است.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('overlay');
+
+    function openDrawer(){
+      drawer.classList.add('open');
+      overlay.classList.add('show');
+      drawer.setAttribute('aria-hidden','false');
+    }
+    function closeDrawer(){
+      drawer.classList.remove('open');
+      overlay.classList.remove('show');
+      drawer.setAttribute('aria-hidden','true');
+    }
+    // بستن با کلید ESC
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape') closeDrawer();
+    });
+  </script>
+</body>
+</html>
